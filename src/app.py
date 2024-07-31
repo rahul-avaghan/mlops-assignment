@@ -1,22 +1,28 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
+import joblib
 import numpy as np
-import pandas as pd
-from sklearn.linear_model import LogisticRegression
+from sklearn.datasets import load_iris
 
 app = Flask(__name__)
 
-# Dummy model (for demonstration purposes)
-model = LogisticRegression()
-model.fit(np.array([[0, 0], [1, 1]]), [0, 1])
+# Load the trained model
+model = joblib.load('model.joblib')
 
+# Load the Iris dataset target names
+iris = load_iris()  # Load the Iris dataset
+target_names = iris.target_names  # Extract the target names
 
-@app.route('/predict', methods=['POST'])
+@app.route("/", methods=["GET"])
+def read_root():
+    return {"message": "Welcome to the ML Model API"}
+
+@app.route("/predict/", methods=["POST"])
 def predict():
-    data = request.get_json(force=True)
-    df = pd.DataFrame(data)
-    prediction = model.predict(df)
-    return jsonify({'prediction': prediction.tolist()})
+    data = request.get_json()
+    features = np.array(data['features']).reshape(1, -1)
+    prediction = model.predict(features)
+    class_name = target_names[prediction][0]
+    return {"class": class_name}
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
