@@ -6,7 +6,7 @@ from sklearn.datasets import load_iris
 app = Flask(__name__)
 
 # Load the trained model
-model = joblib.load('model.joblib')
+model = joblib.load('best_model.joblib')
 
 # Load the Iris dataset target names
 iris = load_iris()  # Load the Iris dataset
