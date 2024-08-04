@@ -8,6 +8,6 @@ def client():
         yield client
 
 def test_predict(client):
-    response = client.post('/predict', json=[[0, 0], [1, 1]])
+    response = client.post('/predict', json={"features": [5.1, 3.5, 1.4, 0.2]})
     assert response.status_code == 200
-    assert response.json == {'prediction': [0, 1]}
+    assert response.json == {"class":"setosa"}
