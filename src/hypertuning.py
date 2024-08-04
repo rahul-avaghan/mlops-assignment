@@ -1,8 +1,14 @@
+import mlflow
 import joblib
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
+
+# mlflow server --host 127.0.0.1 --port 8080
+# mlflow.set_tracking_uri(uri="http://127.0.0.1:8080")
+mlflow.set_experiment("Iris classifier")
+mlflow.sklearn.autolog()
 
 # Load dataset
 iris = load_iris()
