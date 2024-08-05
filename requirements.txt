@@ -1,6 +1,7 @@
+mlflow
 Flask
 numpy
 pandas
-scikit-learn==1.3.2
+scikit-learn==1.2.1
 pytest
 autopep8
