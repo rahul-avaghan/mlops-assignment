@@ -3,10 +3,16 @@ from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
+import mlflow
+import mlflow.sklearn
 
 # Load dataset
 iris = load_iris()
 X, y = iris.data, iris.target
+
+mlflow.set_tracking_uri(uri="http://127.0.0.1:8080")
+mlflow.set_experiment("Iris Classifier")
+mlflow.sklearn.autolog()
 
 # Split the dataset into training and validation sets
 X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -39,7 +45,7 @@ print("Best accuracy score:", grid_search.best_score_)
 best_rf_model = grid_search.best_estimator_
 
 # Predict on the validation set
-y_pred = best_rf_model.predict(X_val)
+y_pred = best_rf_model.predict(X_val)	
 
 # Evaluate the model
 #Evaluate the model test 111
